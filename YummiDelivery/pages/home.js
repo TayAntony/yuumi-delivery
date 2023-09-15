@@ -1,6 +1,19 @@
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 import { View, Text, TouchableOpacity, TextInput, Image } from 'react-native'
 
 export default function Home({navigation}){
+    const [lista, setLista] = useState([])
+
+    let token = JSON.parse(localStorage.getItem('token'))
+    
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/loja/produtos/', {headers: { Authorization: `JWT ${token.data.access}`}})
+        .then((res) => {
+            setLista(res.data)
+        })
+    }, [])
+ 
     const dados_usuario = JSON.parse(localStorage.getItem('dados_usuario'))
     return(
         <View style={{width: '100%', height: '100%', backgroundColor: 'white'}}>
@@ -20,7 +33,7 @@ export default function Home({navigation}){
                 </View>
             </View>
 
-            <View style={{height: 500, padding: 20}}>
+            <View style={{height: 300, padding: 20}}>
                 <View>
                     <Text style={{fontSize: 24}}>Restaurantes de hoje!</Text>
                     <View style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', height: 80 , alignItems: 'center'}}>
@@ -35,23 +48,13 @@ export default function Home({navigation}){
                 <View style={{height: '100%', justifyContent: 'center'}}>
                     <Text style={{fontSize: 24}}>Produtos em destaque</Text>
                     
-                    <View style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', height: 140, alignItems: 'center'}}>
-                        <TouchableOpacity onPress={() => navigation.navigate('Detalhe do Produto', {id: 1})}><Image style={{width: 104, height: 104, borderRadius: 4, shadowColor: '#00000029', shadowOffset: {width: 2, height: 2}, shadowRadius: 2}} source={require('../assets/rectangle 51.svg')}></Image></TouchableOpacity>
-                        <TouchableOpacity onPress={() => navigation.navigate('Detalhe do Produto', {id: 2})}><Image style={{width: 104, height: 104, borderRadius: 4, shadowColor: '#00000029', shadowOffset: {width: 2, height: 2}, shadowRadius: 2}} source={require('../assets/rectangle 52.svg')}></Image></TouchableOpacity>
-                        <TouchableOpacity onPress={() => navigation.navigate('Detalhe do Produto', {id: 3})}><Image style={{width: 104, height: 104, borderRadius: 4, shadowColor: '#00000029', shadowOffset: {width: 2, height: 2}, shadowRadius: 2}} source={require('../assets/rectangle 53.svg')}></Image></TouchableOpacity>
+                    <View style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', height: 120, alignItems: 'center'}}>
+                        {lista.length > 0 ? lista.map((item) => (
+                        <TouchableOpacity onPress={() => navigation.navigate('Detalhe do Produto', {id: item.id})}><Image style={{width: 104, height: 104, borderRadius: 4, shadowColor: '#00000029', shadowOffset: {width: 2, height: 2}, shadowRadius: 2}} source={item.foto}></Image></TouchableOpacity>
+
+                        )): null}
                     </View>
 
-                    <View style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', height: 140, alignItems: 'center'}}>
-                        <TouchableOpacity onPress={() => navigation.navigate('Detalhe do Produto', {id: 4})}><Image style={{width: 104, height: 104, borderRadius: 4, shadowColor: '#00000029', shadowOffset: {width: 2, height: 2}, shadowRadius: 2}} source={require('../assets/rectangle 5.svg')}></Image></TouchableOpacity>
-                        <TouchableOpacity onPress={() => navigation.navigate('Detalhe do Produto', {id: 5})}><Image style={{width: 104, height: 104, borderRadius: 4, shadowColor: '#00000029', shadowOffset: {width: 2, height: 2}, shadowRadius: 2}} source={require('../assets/rectangle 6.svg')}></Image></TouchableOpacity>
-                        <TouchableOpacity onPress={() => navigation.navigate('Detalhe do Produto', {id: 6})}><Image style={{width: 104, height: 104, borderRadius: 4, shadowColor: '#00000029', shadowOffset: {width: 2, height: 2}, shadowRadius: 2}} source={require('../assets/rectangle 7.svg')}></Image></TouchableOpacity>
-                    </View>
-
-                    <View style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', height: 140, alignItems: 'center'}}>
-                        <TouchableOpacity onPress={() => navigation.navigate('Detalhe do Produto', {id: 7})}><Image style={{width: 104, height: 104, borderRadius: 4, shadowColor: '#00000029', shadowOffset: {width: 2, height: 2}, shadowRadius: 2}} source={require('../assets/rectangle 48.svg')}></Image></TouchableOpacity>
-                        <TouchableOpacity onPress={() => navigation.navigate('Detalhe do Produto', {id: 8})}><Image style={{width: 104, height: 104, borderRadius: 4, shadowColor: '#00000029', shadowOffset: {width: 2, height: 2}, shadowRadius: 2}} source={require('../assets/rectangle 54.svg')}></Image></TouchableOpacity>
-                        <TouchableOpacity onPress={() => navigation.navigate('Detalhe do Produto', {id: 9})}><Image style={{width: 104, height: 104, borderRadius: 4, shadowColor: '#00000029', shadowOffset: {width: 2, height: 2}, shadowRadius: 2}} source={require('../assets/rectangle 49.svg')}></Image></TouchableOpacity>
-                    </View>
                 </View>
                 
             </View>

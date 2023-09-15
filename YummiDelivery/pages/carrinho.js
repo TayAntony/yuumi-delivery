@@ -29,16 +29,24 @@ export default function Carrinho({navigation}){
     useEffect(() => {
         let calcular_total = 0
         let pedidos = []
-        pedidos.push(JSON.parse(localStorage.getItem('carrinho')))
-        setLista(pedidos[0])
-        
-        if (pedidos[0] != null){
-          pedidos[0].map((item) => {
-              calcular_total = calcular_total + parseFloat(item.preco) * parseFloat(item.qtd)
-          })
+
+        try{
+            pedidos.push(JSON.parse(localStorage.getItem('carrinho')))
+            setLista(pedidos[0])
+            
+            if (pedidos[0] != null){
+              pedidos[0].map((item) => {
+                  calcular_total = calcular_total + parseFloat(item.preco) * parseFloat(item.qtd)
+              })
+            }
+            
+          setTotal(calcular_total)
         }
         
-      setTotal(calcular_total)
+        catch{
+            setLista([])
+        }
+      
 
     }, [estaNaTela])
     return(

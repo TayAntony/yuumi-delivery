@@ -12,14 +12,24 @@ export default function AdicionarEndereco({navigation}){
     const [cep, setCep] = useState('')
 
     function calcular_frete(){
-        axios.get(`https://www.cepcerto.com/ws/json-frete/13036210/${cep}/500`)
-        .then((res) => {
-            console.log(res.data)
-            setPrazoPac(res.data.prazopac)
-            setValorPac(res.data.valorpac)
-            setPrazoSedex(res.data.prazosedex)
-            setValorSedex(res.data.valorSedex)
-        })
+        setValorPac(20)
+        setPrazoPac(3)
+        setValorSedex(20)
+        setPrazoSedex(1)
+
+        setOptions([
+            {
+                label: 'PAC',
+                description: `Até ${prazoPac} dias úteis!`,
+                price: `R$ ${valorPac}`,
+              },
+              {
+                label: 'Sedex',
+                description: `Até ${prazoSedex} dias úteis`,
+                price: `R$ ${valorSedex}`,
+              },
+        ])
+
     }
 
     const [options, setOptions] = useState( [

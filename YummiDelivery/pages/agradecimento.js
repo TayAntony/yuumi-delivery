@@ -1,7 +1,12 @@
 import { View, Text, TouchableOpacity, Image, ImageBackground, TextInput } from 'react-native'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function Agradecimento({navigation}){
+    
+    useEffect(() => {
+        localStorage.setItem('carrinho', [])
+    }, [])
+    
     return(
         <View style={{width: '100%', height: '100%', backgroundColor: 'white'}}>
             <ImageBackground style={{width: 388, height: 320}} source={require('../assets/agradecimento.svg')}>

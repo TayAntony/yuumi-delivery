@@ -10,6 +10,7 @@ export default function LoginCliente({navigation}){
         axios.post('http://127.0.0.1:8000/auth/jwt/create', {email: email, password: senha})
         .then((token_criado_create) => {
             alert('Seja bem-vindo/a de volta!')
+            localStorage.setItem('token', JSON.stringify(token_criado_create))
             axios.get('http://127.0.0.1:8000/loja/clientes/', {headers: { Authorization: `JWT ${token_criado_create.data.access}`}})
             .then((res) => {
                 let lista = []
