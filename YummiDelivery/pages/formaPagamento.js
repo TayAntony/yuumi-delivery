@@ -1,9 +1,15 @@
 import { View, Text, TouchableOpacity, Image, ImageBackground, TextInput } from 'react-native'
 import { RadioButton } from 'react-native-paper';
 import React, { useState} from 'react';
+import { useRoute } from '@react-navigation/native';
 
 export default function FormaPagamento({navigation}){
     const [selectedOption, setSelectedOption] = useState('');
+    const [opcaoSelecionada, setOpcaoSelecionada] = useState(false);
+
+    const route = useRoute()
+
+    const cep = route.params.cep
 
     const options = [
         {
@@ -44,9 +50,13 @@ export default function FormaPagamento({navigation}){
                             {options.map((option, index) => (
                             <View key={index} style={{ backgroundColor: index % 2 === 0 ? '#F4F4F4' : '#FBFBFB', flexDirection: 'row', gap: 8, height: 44, alignItems: 'center', justifyContent: 'space-between'}}>
                                 <RadioButton
-                                value={option.label}
-                                status={selectedOption === option.label ? 'checked' : 'unchecked'}
-                                onPress={() => setSelectedOption(option.label)}/>
+                                    value={option.label}
+                                    status={selectedOption === option.label ? 'checked' : 'unchecked'}
+                                    onPress={() => {
+                                        setSelectedOption(option.label);
+                                        setOpcaoSelecionada(true);
+                                    }}
+                                />
                                 <View style={{display: 'flex', flexDirection: 'row', gap:24, justifyContent: 'space-between', width: '75%' }}>
                                     <Text style={{ fontWeight: '700', color: '#5635CC' }}>{option.label}</Text>
                                     <Text style={{ fontWeight: 'normal', color: '#000'}}>{option.description}</Text>
@@ -58,9 +68,20 @@ export default function FormaPagamento({navigation}){
                 </View>
             </View>        
             <View style={{width: '100%', display: 'flex', justifyContent: 'space-evenly', flexDirection: 'row', alignItems: 'center', marginTop: 24}}>
-                    <TouchableOpacity style={{borderRadius: 4, backgroundColor: '#5F5DEE', width: 212, justifyContent: 'center', height: 50, width: '85%'}} onPress={() => navigation.navigate('Agradecimento')}>
-                        <Text style={{fontSize: 16, color: 'white', textAlign: 'center', fontWeight: 'bold'}}>Finalizar compra</Text>
-                    </TouchableOpacity>
+            <TouchableOpacity
+                disabled={!opcaoSelecionada}
+                style={{
+                    borderRadius: 4,
+                    backgroundColor: opcaoSelecionada ? '#5F5DEE' : '#ccc',
+                    width: 212,
+                    justifyContent: 'center',
+                    height: 50,
+                    width: '85%',
+                }}
+                onPress={() => navigation.navigate('Agradecimento', {cep: cep})}
+                >
+                <Text style={{ fontSize: 16, color: 'white', textAlign: 'center', fontWeight: 'bold' }}>Finalizar compra</Text>
+            </TouchableOpacity>
             </View>
             </ImageBackground>
            

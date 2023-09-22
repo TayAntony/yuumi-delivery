@@ -34,7 +34,7 @@ export default function LoginTransportador({navigation}){
 
                 <View style={{display: 'flex', height: 90, justifyContent: 'space-between'}}>
                     <TextInput onChangeText={(e) => setEmail(e)} placeholder='E-mail' style={{width: 328, padding: 8, color: '#C9C9C9', borderRadius: 4, borderWidth: 1, borderColor: '#F4F4F4', backgroundColor: '#FBFBFB', fontSize: 16}}></TextInput>
-                    <TextInput onChangeText={(e) => setSenha(e)} placeholder='Senha' style={{width: 328, padding: 8, color: '#C9C9C9', borderRadius: 4, borderWidth: 1, borderColor: '#F4F4F4', backgroundColor: '#FBFBFB', fontSize: 16}}></TextInput>
+                    <TextInput secureTextEntry={true} onChangeText={(e) => setSenha(e)} placeholder='Senha' style={{width: 328, padding: 8, color: '#C9C9C9', borderRadius: 4, borderWidth: 1, borderColor: '#F4F4F4', backgroundColor: '#FBFBFB', fontSize: 16}}></TextInput>
                 </View>
                 
                 <View style={{width: '80%', height: 50, justifyContent: 'center'}}>

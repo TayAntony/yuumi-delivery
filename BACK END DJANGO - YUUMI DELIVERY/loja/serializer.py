@@ -15,4 +15,4 @@ class ClientesSerializer(serializers.ModelSerializer):
 class PedidosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pedidos
-        fields = ['id', 'cliente', 'codigo_rastreio', 'endereco', 'data_pedido', 'itens_pedido', 'preco_total', 'metodo', 'status_pagamento', 'status_pedido']
+        fields = ['id', 'nome_do_entregador', 'cliente', 'codigo_rastreio', 'endereco', 'data_pedido', 'itens_pedido', 'preco_total', 'metodo', 'status_pagamento', 'status_pedido']

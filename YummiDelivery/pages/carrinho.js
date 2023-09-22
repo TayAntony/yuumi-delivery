@@ -45,6 +45,7 @@ export default function Carrinho({navigation}){
         
         catch{
             setLista([])
+            setTotal(0)
         }
       
 
@@ -91,13 +92,13 @@ export default function Carrinho({navigation}){
            <View style={{width: '100%', height: 50}}>
                 <Text style={{width: 150, fontSize: 16, fontWeight: 'bold', marginLeft: 'auto'}}>Total: R$ {parseFloat(total).toFixed(2)}</Text>
            </View>
-
-           <View style={{width: '100%', display: 'flex', justifyContent: 'space-evenly', flexDirection: 'row', alignItems: 'center'}}>
-                <TouchableOpacity style={{borderRadius: 4, backgroundColor: '#5F5DEE', width: 212, justifyContent: 'center', height: 50}}>
-                    <Text onPress={() => navigation.navigate('Adicionar Endereco')} style={{fontSize: 16, color: 'white', textAlign: 'center', fontWeight: 'bold'}}>Comprar</Text>
-                </TouchableOpacity>
-           </View>
-            
+                <View style={lista.length > 0 ? {display: 'block'} : {display: 'none'}}>
+                    <View style={{width: '100%', display: 'flex', justifyContent: 'space-evenly', flexDirection: 'row', alignItems: 'center'}}>
+                        <TouchableOpacity style={{borderRadius: 4, backgroundColor: '#5F5DEE', width: 212, justifyContent: 'center', height: 50}}>
+                            <Text onPress={() => navigation.navigate('Adicionar Endereco')} style={{fontSize: 16, color: 'white', textAlign: 'center', fontWeight: 'bold'}}>Comprar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
         </View>
     )
 }

@@ -39,7 +39,8 @@ class Pedidos(models.Model):
         (STATUS_PEDIDO_ENTREGUE, 'Entregue'),
         (STATUS_PEDIDO_TRANSPORTE, 'Transporte'),
     ]
-
+    
+    nome_do_entregador = models.CharField(max_length=100, default=False)
     cliente = models.CharField(max_length=100)
     codigo_rastreio = models.CharField(max_length=10, default=0)
     endereco = models.CharField(max_length=100)
