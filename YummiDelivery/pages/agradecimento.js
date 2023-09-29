@@ -1,32 +1,58 @@
 import { View, Text, TouchableOpacity, Image, ImageBackground, TextInput } from 'react-native'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useRoute } from '@react-navigation/native';
 
 export default function Agradecimento({navigation}){
     const dados_usuario = JSON.parse(localStorage.getItem('dados_usuario'))
+
+    const route = useRoute()
+    
+    const cep = route.params.cep
     
     useEffect(() => {
         let lista_transportadores = []
+        const itens_carrinho = JSON.parse(localStorage.getItem('carrinho'))
+        let lista_carrinho = []
+        let total_carrinho = 0
+        lista_carrinho = itens_carrinho
+
+        lista_carrinho.map((item) => {
+            let valor = item.preco * item.qtd
+            total_carrinho += valor
+        })
+
         const token = JSON.parse(localStorage.getItem('token'))
         axios.get('http://127.0.0.1:8000/loja/clientes/', { headers: { Authorization: `JWT ${token.data.access}`}})
-        .then((res_lista_clientes) => {
+        .then((res_lista_clientes) => {     
             let lista = []
-            lista.push(res_lista_clientes.data)
+            lista = res_lista_clientes.data
             
             lista.map((cliente) => {
                 if (cliente.transportador == true){
                     lista_transportadores.push(cliente.nome)
-                }
+                }           
             })
-        })
-
-        let transportador_sorteado = lista_transportadores[Math.floor(Math.random() * lista_transportadores.length)]
-        axios.post('http://127.0.0.1:8000/loja/clientes', {nome_do_entregador: transportador_sorteado, cliente: dados_usuario.nome, codigo_rastreio: 10923,}, { headers: { Authorization: `JWT ${token.data.access}`}})
-        .then((res) => {
             
+            let transportador_sorteado = lista_transportadores[Math.floor(Math.random() * lista_transportadores.length)]
+            const data = new Date();
+
+            let diaAtual = String(data.getDate()).padStart(2, '0');
+            
+            let mesAtual = String(data.getMonth()+1).padStart(2,"0");
+            
+            let anoAtual = data.getFullYear();
+                        
+            let dataAtual = `${diaAtual}-${mesAtual}-${anoAtual}`;
+
+            const codigo_rastreio = Math.floor(Math.random() * (99999 - 90000) + 9000)
+            axios.post('http://127.0.0.1:8000/loja/pedidos/', {nome_do_entregador: transportador_sorteado, cliente: dados_usuario.nome, codigo_rastreio: codigo_rastreio, endereco: cep, itens_pedido: itens_carrinho.length, preco_total: total_carrinho, data_pedido: dataAtual, status_pedido: 'T'}, { headers: { Authorization: `JWT ${token.data.access}`}})
+            .then((res) => {
+                
+            })
+            
+            localStorage.setItem('carrinho', '[]')
         })
-        
-        localStorage.setItem('carrinho', '[]')
     }, [])
     
     return(

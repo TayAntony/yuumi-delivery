@@ -27,7 +27,7 @@ class Produtos(models.Model):
 class Clientes(models.Model):
     nome = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
-    senha = models.CharField(max_length=100)
+    senha = models.CharField(max_length=100)    
     cpf = models.CharField(max_length=14)
     transportador = models.BooleanField(default=False)
 

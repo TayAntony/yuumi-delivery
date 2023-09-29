@@ -10,13 +10,14 @@ export default function LoginTransportador({navigation}){
     function logar(){
         axios.post('http://127.0.0.1:8000/auth/jwt/create', {email: email, password: senha})
         .then((token_criado_create) => {
+            localStorage.setItem('token', JSON.stringify(token_criado_create));
             alert('Seja bem-vindo/a de volta!')
             axios.get('http://127.0.0.1:8000/loja/clientes/', {headers: { Authorization: `JWT ${token_criado_create.data.access}`}})
             .then((res) => {
                 let lista = []
                 let dados_usuario = ''
-                lista.push(res.data)
-                lista[0].map((item) => {
+                lista = res.data
+                lista.map((item) => {
                     if (item.email == email && item.transportador == true){
                         dados_usuario = item
                     }
@@ -44,8 +45,8 @@ export default function LoginTransportador({navigation}){
                 <View style={{height: 20}}/>
                 
                 <View style={{height: 80, display: 'flex', justifyContent: 'space-between'}}>
-                    <TouchableOpacity style={{backgroundColor: '#5F5DEE', borderRadius: '4px', shadowColor: '#A1A1A1C2', shadowOffset: {width: 2, height: 2}, shadowRadius: 8, width: 328, height: 56, display: 'flex', justifyContent: 'center'}}>
-                        <Text onPress={() => logar()} style={{color: 'white', textAlign: 'center', fontSize: 16}}>Logar</Text>
+                    <TouchableOpacity onPress={() => logar()} style={{backgroundColor: '#5F5DEE', borderRadius: '4px', shadowColor: '#A1A1A1C2', shadowOffset: {width: 2, height: 2}, shadowRadius: 8, width: 328, height: 56, display: 'flex', justifyContent: 'center'}}>
+                        <Text style={{color: 'white', textAlign: 'center', fontSize: 16}}>Logar</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => navigation.navigate('Login Cliente')}>
