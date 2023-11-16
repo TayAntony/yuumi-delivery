@@ -1,7 +1,15 @@
 import { View, Text, TouchableOpacity, Image, ImageBackground, TextInput } from 'react-native'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function Mapa({navigation}){
+    // useEffect(() => {
+    //     axios.get('http://nominatim.openstreetmap.org/reverse?', {lat: latitude, lon: longitude, addressdetails: 1, 'accept-language': 'pt-BR', zoom: 18})
+    //     .then((res) => {
+    //         console.log(res.data)
+    //     })
+    // })
+
     return(
         <View style={{width: '100%', height: '100%', backgroundColor: 'white'}}>
             
