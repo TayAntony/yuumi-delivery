@@ -13,15 +13,21 @@ export default function CadastroCliente({navigation}){
         .then((res) => {
             axios.post('http://127.0.0.1:8000/auth/jwt/create/', {email: email, password: senha})
             .then((token_criado_create) => {
-                localStorage.setItem('token', JSON.stringify(token_criado_create.data))
+                localStorage.setItem('token', JSON.stringify(token_criado_create))
                 axios.post('http://127.0.0.1:8000/loja/clientes/', {nome: nome, cpf: cpf, email: email, senha: senha, transportador: false}, {headers: { Authorization: `JWT ${token_criado_create.data.access}`}})
                 .then((res_conta_criada_com_sucesso) => {
                     alert('A sua conta foi criada com sucesso!')
-                    localStorage.setItem('dados_usuario', res_conta_criada_com_sucesso.data)
+                    localStorage.setItem('dados_usuario', JSON.stringify(res_conta_criada_com_sucesso.data))
                     navigation.navigate('Home')
                 })
             })
         })
+        .catch((error) => {
+            if (error.response) {
+              // O servidor retornou um status de resposta diferente de 2xx
+              console.error(error.response.data.message);
+            } 
+          });
     }
     
     return(

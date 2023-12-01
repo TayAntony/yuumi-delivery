@@ -28,7 +28,7 @@ export default function LoginCliente({navigation}){
           })
           .catch((error) => {
             console.error('Erro na primeira requisição:', error);
-            if (error.response && error.response.status === 400) {
+            if (error.response && error.response.status === 401) {
               alert('Verifique suas credenciais e tente novamente.');
             } else {
               alert('Ocorreu um erro ao se comunicar com o servidor. Tente novamente mais tarde.');
